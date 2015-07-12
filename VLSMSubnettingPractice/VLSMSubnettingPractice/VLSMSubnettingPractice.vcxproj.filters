@@ -23,5 +23,11 @@
     <ClInclude Include="IPAddress.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SubnetService.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SubnetMask.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

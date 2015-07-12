@@ -8,9 +8,12 @@ class IPAddress {
 	public:
 		IPAddress(int first, int second, int third, int fourth);
 		~IPAddress();
+		void setAddressAsBinary(std::bitset<32> ip_address);
+		void setAddressAsUnsignedLongInt(unsigned long int ip_address);
+
 		int* getAddress() const;
-		std::bitset<32> getAddressInBinary() const;
-		unsigned long int getAddressInInt() const;
+		std::bitset<32> getAddressAsBinary() const;
+		unsigned long int getAddressAsUnsignedLongInt() const;
 		int getFirstOctet() const;
 		int getSecondOctet() const;
 		int getThirdOctet() const;
@@ -34,8 +37,6 @@ IPAddress::IPAddress(int first, int second, int third, int fourth) {
 		}
 		jump -= 8;
 	}
-
-	
 }
 
 IPAddress::~IPAddress() {
@@ -46,13 +47,32 @@ int* IPAddress::getAddress() const {
 	return address;
 }
 
-std::bitset<32> IPAddress::getAddressInBinary() const {
+std::bitset<32> IPAddress::getAddressAsBinary() const {
 	return binary_address;
 }
 
-unsigned long int IPAddress::getAddressInInt() const
+unsigned long int IPAddress::getAddressAsUnsignedLongInt() const
 {
 	return binary_address.to_ulong();
+}
+
+void IPAddress::setAddressAsBinary(std::bitset<32> ip_address)
+{
+	setAddressAsUnsignedLongInt(ip_address.to_ulong());
+}
+
+void IPAddress::setAddressAsUnsignedLongInt(unsigned long int ip_address)
+{
+	unsigned long int sweeper = 255;
+
+	for (int i = 3; i >= 0; i--) {
+		address[i] = static_cast<int>(ip_address & sweeper);
+		sweeper = sweeper << 8;
+	}
+
+	address[0] = address[0] >> 24;
+	address[1] = address[1] >> 16;
+	address[2] = address[2] >> 8;
 }
 
 int IPAddress::getFirstOctet() const {
@@ -70,10 +90,3 @@ int IPAddress::getThirdOctet() const {
 int IPAddress::getFourthOctet() const {
 	return address[3];
 }
-
-
-//Derived Class
-class SubnetMask : public IPAddress {
-	public:
-		SubnetMask(int first, int second, int third, int fourth) :IPAddress(first, second, third, fourth) {};
-};

@@ -70,6 +70,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IPAddress.h" />
+    <ClInclude Include="SubnetMask.h" />
+    <ClInclude Include="SubnetService.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
