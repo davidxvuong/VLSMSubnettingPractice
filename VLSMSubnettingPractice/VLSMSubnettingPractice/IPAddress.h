@@ -115,6 +115,16 @@ void IPAddress::setAddressAsUnsignedLongInt(unsigned long int &ip_address)
 		sweeper = sweeper << 8;
 	}
 
+	int jump = 24;
+
+	for (int i = 0; i < 4; i++) {
+		std::bitset<8> t(address[i]);
+		for (int j = 7; j >= 0; j--) {
+			binary_address[jump + j] = t[j];
+		}
+		jump -= 8;
+	}
+
 	address[0] = address[0] >> 24;
 	address[1] = address[1] >> 16;
 	address[2] = address[2] >> 8;

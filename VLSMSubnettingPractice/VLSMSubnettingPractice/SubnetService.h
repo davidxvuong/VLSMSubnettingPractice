@@ -78,7 +78,7 @@ void SubnetService::solve(list<tuple<IPAddress*, IPAddress*, IPAddress*, IPAddre
 		while (!stop) {
 			subnetSpace = (int)(pow(2, startExp));
 
-			if (subnetSpace - 2 > subnetRequirement)
+			if (subnetSpace - 2 >= subnetRequirement)
 				stop = true;
 			else
 				startExp++;
@@ -153,7 +153,10 @@ void SubnetService::solve(list<tuple<IPAddress*, IPAddress*, IPAddress*, IPAddre
 			}
 		}
 
-		std::cout << std::endl;
+		std::cout << std::endl << std::endl;
+
+		solve(list, *nextNetworkAddress, *subnet_mask, requirements);
+
 	}
 	else {
 		return;
