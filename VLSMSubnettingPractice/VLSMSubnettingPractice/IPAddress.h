@@ -1,16 +1,20 @@
 #pragma once
 
+#include <memory>
+
 //Base Class
 class IPAddress {
 	private:
-		unsigned int* address;
+		unsigned int *address;
 		std::bitset<32> binary_address;
 		char classType;
 	public:
+		IPAddress();
+		IPAddress(const IPAddress &obj);
 		IPAddress(int first, int second, int third, int fourth);
 		~IPAddress();
 		void setAddressAsBinary(std::bitset<32> ip_address);
-		void setAddressAsUnsignedLongInt(unsigned long int ip_address);
+		void setAddressAsUnsignedLongInt(unsigned long int &ip_address);
 		void setClassType(int firstOctet);
 
 		char getClassType() const;
@@ -22,6 +26,22 @@ class IPAddress {
 		int getThirdOctet() const;
 		int getFourthOctet() const;
 };
+
+IPAddress::IPAddress() {
+	address = new unsigned int[4];
+	//Empty default onstructor
+}
+
+IPAddress::IPAddress(const IPAddress &obj) {
+	address = new unsigned int[4];
+
+	for (int i = 0; i < 4; i++) {
+		address[i] = obj.address[i];
+	}
+
+	classType = obj.classType;
+	binary_address = obj.binary_address;
+}
 
 IPAddress::IPAddress(int first, int second, int third, int fourth) {
 	address = new unsigned int[4];
@@ -82,10 +102,11 @@ unsigned long int IPAddress::getAddressAsUnsignedLongInt() const
 
 void IPAddress::setAddressAsBinary(std::bitset<32> ip_address)
 {
-	setAddressAsUnsignedLongInt(ip_address.to_ulong());
+	unsigned long int value = ip_address.to_ulong();
+	setAddressAsUnsignedLongInt(value);
 }
 
-void IPAddress::setAddressAsUnsignedLongInt(unsigned long int ip_address)
+void IPAddress::setAddressAsUnsignedLongInt(unsigned long int &ip_address)
 {
 	unsigned long int sweeper = 255;
 
