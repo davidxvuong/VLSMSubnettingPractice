@@ -12,10 +12,10 @@ using namespace std;
 
 class SubnetService {
 	public:
-		list<tuple<IPAddress, IPAddress, IPAddress, IPAddress, SubnetMask>> solve(IPAddress space, SubnetMask mask, vector<int> requirements);
+		list<tuple<IPAddress, IPAddress, IPAddress, IPAddress, SubnetMask>> solve(IPAddress &space, SubnetMask &mask, vector<int> &requirements);
 };
 
-list<tuple<IPAddress, IPAddress, IPAddress, IPAddress, SubnetMask>> SubnetService::solve(IPAddress space, SubnetMask mask, vector<int> requirements)
+list<tuple<IPAddress, IPAddress, IPAddress, IPAddress, SubnetMask>> SubnetService::solve(IPAddress &space, SubnetMask &mask, vector<int> &requirements)
 {
 	//Format of tuple: Network Address, First Usable Address, Last Usable Address, Broadcast Address, Subnet Mask
 	list<tuple<IPAddress, IPAddress, IPAddress, IPAddress, SubnetMask>> result;
