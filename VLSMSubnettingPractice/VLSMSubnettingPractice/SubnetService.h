@@ -84,7 +84,7 @@ void SubnetService::solve(list<tuple<IPAddress*, IPAddress*, IPAddress*, IPAddre
 				startExp++;
 		}
 
-		for (int i = 31; i > startExp; i--) {
+		for (int i = 31; i >= startExp; i--) {
 			newSubnetMask[i] = 1;
 		}
 
@@ -103,6 +103,10 @@ void SubnetService::solve(list<tuple<IPAddress*, IPAddress*, IPAddress*, IPAddre
 		std::tuple<IPAddress*, IPAddress*, IPAddress*, IPAddress*, SubnetMask*> subnetData(&networkAddress, firstUsableAddress, lastUsableAddress, broadcastAddress, subnet_mask);
 		list.push_back(subnetData);
 		requirements.pop_back();
+
+		std::cout << "Subnet Requirement: " << subnetRequirement << std::endl;
+
+		std::cout << "Subnet space allocated: " << subnetSpace << std::endl;
 
 		std::cout << "Network Address for Subnet: ";
 		unsigned int* t = space.getAddress();
@@ -149,6 +153,19 @@ void SubnetService::solve(list<tuple<IPAddress*, IPAddress*, IPAddress*, IPAddre
 			std::cout << t[i];
 
 			if (i != 3){
+				std::cout << ".";
+			}
+		}
+
+		std::cout << std::endl;
+
+		std::cout << "Subnet Mask: ";
+
+		t = subnet_mask->getAddress();
+		for (int i = 0; i < 4; i++) {
+			std::cout << t[i];
+
+			if (i != 3) {
 				std::cout << ".";
 			}
 		}

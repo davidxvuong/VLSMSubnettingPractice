@@ -111,9 +111,15 @@ void IPAddress::setAddressAsUnsignedLongInt(unsigned long int &ip_address)
 	unsigned long int sweeper = 255;
 
 	for (int i = 3; i >= 0; i--) {
-		address[i] = static_cast<int>(ip_address & sweeper);
+		unsigned int t = ip_address & sweeper;
+		address[i] = static_cast<unsigned int>(t);
 		sweeper = sweeper << 8;
 	}
+
+	address[0] = address[0] >> 24;
+	address[1] = address[1] >> 16;
+	address[2] = address[2] >> 8;
+
 
 	int jump = 24;
 
@@ -124,12 +130,8 @@ void IPAddress::setAddressAsUnsignedLongInt(unsigned long int &ip_address)
 		}
 		jump -= 8;
 	}
-
-	address[0] = address[0] >> 24;
-	address[1] = address[1] >> 16;
-	address[2] = address[2] >> 8;
-
 	setClassType(address[0]);
+	
 }
 
 int IPAddress::getFirstOctet() const {
