@@ -3,15 +3,18 @@
 //Base Class
 class IPAddress {
 	private:
-		int* address;
+		unsigned int* address;
 		std::bitset<32> binary_address;
+		char classType;
 	public:
 		IPAddress(int first, int second, int third, int fourth);
 		~IPAddress();
 		void setAddressAsBinary(std::bitset<32> ip_address);
 		void setAddressAsUnsignedLongInt(unsigned long int ip_address);
+		void setClassType(int firstOctet);
 
-		int* getAddress() const;
+		char getClassType() const;
+		unsigned int* getAddress() const;
 		std::bitset<32> getAddressAsBinary() const;
 		unsigned long int getAddressAsUnsignedLongInt() const;
 		int getFirstOctet() const;
@@ -21,7 +24,7 @@ class IPAddress {
 };
 
 IPAddress::IPAddress(int first, int second, int third, int fourth) {
-	address = new int[4];
+	address = new unsigned int[4];
 
 	address[0] = first;
 	address[1] = second;
@@ -37,13 +40,34 @@ IPAddress::IPAddress(int first, int second, int third, int fourth) {
 		}
 		jump -= 8;
 	}
+
+	setClassType(first);
 }
 
 IPAddress::~IPAddress() {
 	delete[] address;
 }
 
-int* IPAddress::getAddress() const {
+void IPAddress::setClassType(int first) {
+	if (first >= 1 && first <= 126)
+		classType = 'A';
+	else if (first >= 128 && first <= 191)
+		classType = 'B';
+	else if (first >= 192 && first <= 223)
+		classType = 'C';
+	else if (first >= 224 && first <= 239)
+		classType = 'D';
+	else if (first >= 240 && first < 254)
+		classType = 'E';
+	else
+		classType = 'N';		//Loopback address
+}
+
+char IPAddress::getClassType() const {
+	return classType;
+}
+
+unsigned int* IPAddress::getAddress() const {
 	return address;
 }
 
@@ -73,6 +97,8 @@ void IPAddress::setAddressAsUnsignedLongInt(unsigned long int ip_address)
 	address[0] = address[0] >> 24;
 	address[1] = address[1] >> 16;
 	address[2] = address[2] >> 8;
+
+	setClassType(address[0]);
 }
 
 int IPAddress::getFirstOctet() const {

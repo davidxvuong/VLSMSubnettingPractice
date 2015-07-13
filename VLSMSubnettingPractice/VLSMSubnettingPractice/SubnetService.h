@@ -3,55 +3,39 @@
 #include <iostream>
 #include <list>
 #include <tuple>
+#include <vector>
+#include <cmath>
 #include "IPAddress.h"
 #include "SubnetMask.h"
 
 using namespace std;
 
 class SubnetService {
-	private:
-		IPAddress* addressSpace;
-		SubnetMask* mask;
-		int* subnetRequirements;
-		int numOfSubnets;
-
 	public:
-		~SubnetService();
-		void setAddressSpace(IPAddress* address);
-		void setSubnetMask(SubnetMask* subnet_mask);
-		void setSubnetRequirements(int* req);
-		void setNumOfSubnets(int val);
-		list<tuple<IPAddress, IPAddress>> solve();
+		list<tuple<IPAddress, IPAddress, IPAddress, IPAddress, SubnetMask>> solve(IPAddress space, SubnetMask mask, vector<int> requirements);
 };
 
-SubnetService::~SubnetService()
+list<tuple<IPAddress, IPAddress, IPAddress, IPAddress, SubnetMask>> SubnetService::solve(IPAddress space, SubnetMask mask, vector<int> requirements)
 {
-	delete addressSpace;
-	delete mask;
-	delete[] subnetRequirements;
-}
+	//Format of tuple: Network Address, First Usable Address, Last Usable Address, Broadcast Address, Subnet Mask
+	list<tuple<IPAddress, IPAddress, IPAddress, IPAddress, SubnetMask>> result;
+	IPAddress* networkAddress = &space;
+	int subnet = requirements.back();
+	int startingExponent = 1;
+	int subnetRequirement;
+	bool stop = false;
 
-void SubnetService::setAddressSpace(IPAddress * address)
-{
-	addressSpace = address;
-}
+	while (!stop) {
+		subnetRequirement = (int)(pow(2, startingExponent) - 2);
+		if (subnetRequirement > subnet) {
+			stop = true;
+		}
+		else {
+			startingExponent++;
+		}
+	}
 
-void SubnetService::setSubnetMask(SubnetMask * subnet_mask)
-{
-	mask = subnet_mask;
-}
+	std::cout << subnetRequirement << std::endl;
 
-void SubnetService::setSubnetRequirements(int * req)
-{
-	subnetRequirements = req;
-}
-
-void SubnetService::setNumOfSubnets(int val)
-{
-	numOfSubnets = val;
-}
-
-list<tuple<IPAddress, IPAddress>> SubnetService::solve()
-{
-	return list<tuple<IPAddress, IPAddress>>();
+	return result;
 }

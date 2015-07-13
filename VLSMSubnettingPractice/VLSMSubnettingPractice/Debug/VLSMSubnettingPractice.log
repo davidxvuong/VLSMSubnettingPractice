@@ -1,4 +1,4 @@
-﻿Build started 7/12/2015 12:17:32 AM.
+﻿Build started 7/12/2015 8:02:04 PM.
      1>Project "C:\Users\David Vuong\Desktop\VLSMSubnetting\VLSMSubnettingPractice\VLSMSubnettingPractice\VLSMSubnettingPractice.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
@@ -10,4 +10,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:03.84
+Time Elapsed 00:00:04.18
