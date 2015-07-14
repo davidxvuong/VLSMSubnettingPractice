@@ -128,6 +128,8 @@ int main() {
 			}
 		}
 		
+		delete data;
+
 		bool check = true;
 		while (check) {
 			std::cout << "\nRestart (Y/N)?";
