@@ -1,5 +1,4 @@
 #pragma once
-#pragma warning(disable:4996)
 
 #include <memory>
 #include <string>
@@ -13,8 +12,8 @@ class IPAddress {
 	public:
 		IPAddress();
 		IPAddress(const IPAddress &obj);
-		IPAddress(int first, int second, int third, int fourth);
 		~IPAddress();
+		void setAddress(int first, int second, int third, int fourth);
 		void setAddressAsBinary(std::bitset<32> ip_address);
 		void setAddressAsUnsignedLongInt(unsigned long int &ip_address);
 		void setClassType(int firstOctet);
@@ -45,7 +44,7 @@ IPAddress::IPAddress(const IPAddress &obj) {
 	binary_address = obj.binary_address;
 }
 
-IPAddress::IPAddress(int first, int second, int third, int fourth) {
+void IPAddress::setAddress(int first, int second, int third, int fourth) {
 	address = new unsigned int[4];
 
 	address[0] = first;

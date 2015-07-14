@@ -1,57 +1,167 @@
 #include <iostream>
+#include <time.h>
+#include <algorithm>
 #include <bitset>
 #include <string>
 #include <vector>
 #include "IPAddress.h"
-#include "SubnetMask.h"
 #include "SubnetService.h"
 
+#define MAX_CLASS_A_ADDRESS 16777216
+#define MAX_CLASS_B_ADDRESS 65536
+#define MAX_CLASS_C_ADDRESS 256
+#define CLASS_A_LIMIT 500
+#define CLASS_B_LIMIT 15
+#define CLASS_C_LIMIT 10
+
+
 int main() {
-	try {
-		IPAddress address(172, 16, 0, 0);
-		SubnetMask subnet_mask(255, 255, 0, 0);
-		SubnetService instance;
-		vector<int> requirement;
+	//Object Initialization
+	IPAddress* addressSpace = new IPAddress();
+	SubnetService* instance = new SubnetService();
+	vector <unsigned long int> requirements;
 
-		requirement.push_back(10);
-		requirement.push_back(30);
-		requirement.push_back(60);
-		requirement.push_back(120);
-		requirement.push_back(500);
-		requirement.push_back(2000);
-		requirement.push_back(8100);
-		requirement.push_back(15859);
+	system("Color 0a");
+	std::cout << "VLSM Subnetting Practice" << std::endl << std::endl;
+	std::cout << "I would like to practice (select one of the following):\n\tA) Class A Subnetting\n\tB) Class B Subnetting\n\tC) Class C Subnetting\n";
 
-		list<tuple<IPAddress*, IPAddress*, IPAddress*, IPAddress*, SubnetMask*>> result = instance.run(address, requirement);
+	bool stop = false;
+	char input;
+	unsigned long int maxAddressSpace, spaceToSubnet;
+	int maxSubnetGenerated;
+	int count = 0;
 
-		tuple<IPAddress*, IPAddress*, IPAddress*, IPAddress*, SubnetMask*> data;
+	while (!stop) {
+		std::cout << "Enter your choice here: ";
 
-		std::cout << "Net. Address\tFirst Usable\tLast Usable\tBroad. Address\tSubnet Mask" << std::endl << std::endl;
+		std::cin >> input;
 
-		while (result.size() > 0) {
-			data = result.front();
-			result.pop_front();
+		input = toupper(input);
 
-			IPAddress* subnetData[] = { std::get<0>(data), std::get<1>(data), std::get<2>(data), std::get<3>(data), std::get<4>(data) };
-
-			for (int i = 0; i < 5; i++) {
-				unsigned int* ipAddress = subnetData[i]->getAddress();
-
-				for (int j = 0; j < 4; j++) {
-					std::cout << ipAddress[j];
-					if (j != 3)
-						std::cout << ".";
-					else
-						std::cout << "\t";
-				}
-
-			}
-
-			std::cout << std::endl;
+		if (input != 'A' && input != 'B' && input != 'C')
+			std::cout << std::endl << input << " is not a valid option!" << std::endl;
+		else {
+			instance->setClassType(input);
+			std::cout << "\nYou selected Class " << input << " subnetting.\n" << std::endl;
+			stop = true;
 		}
-		std::cin.get();
 	}
-	catch (exception& e) {
-		std::cout << e.what() << std::endl;
+
+	if (input == 'A'){
+		addressSpace->setAddress(10, 0, 0, 0);
+		maxAddressSpace = MAX_CLASS_A_ADDRESS;
+		spaceToSubnet = MAX_CLASS_A_ADDRESS;
+		maxSubnetGenerated = CLASS_A_LIMIT;
+		std::cout << "Given an IP Address 10.0.0.0 with subnet mask 255.0.0.0 and the following subnet requirements:\n\n";
 	}
+	else if (input == 'B'){
+		addressSpace->setAddress(172, 16, 0, 0);
+		maxAddressSpace = MAX_CLASS_B_ADDRESS;
+		spaceToSubnet = MAX_CLASS_B_ADDRESS;
+		maxSubnetGenerated = CLASS_B_LIMIT;
+		std::cout << "Given an IP Address 172.16.0.0 with subnet mask 255.255.0.0 and the following subnet requirements:\n\n";
+	}
+	else{
+		addressSpace->setAddress(192, 168, 1, 0);
+		maxAddressSpace = MAX_CLASS_C_ADDRESS;
+		spaceToSubnet = MAX_CLASS_C_ADDRESS;
+		maxSubnetGenerated = CLASS_C_LIMIT;
+		std::cout << "Given an IP Address 192.168.1.0 with subnet mask 255.255.255.0 and the following subnet requirements:\n\n";
+	}
+
+
+	srand(time(NULL));
+
+	while (spaceToSubnet > 2) {
+		unsigned long int value = rand() % (spaceToSubnet/2) + 2;
+		std::cout << value << std::endl;
+		requirements.push_back(value);
+		spaceToSubnet -= value;
+
+		if (count == maxSubnetGenerated || spaceToSubnet > maxAddressSpace) {
+			break;
+		}
+		else {
+			count++;
+		}
+	}
+	std::sort(requirements.begin(), requirements.end());
+	std::cout << "Find the most optimal addressing scheme for these subnets.\n" << std::endl;
+
+	system("pause");
+
+	list<SubnetInformation*> result = instance->run(*addressSpace, requirements);
+	SubnetInformation* data = new SubnetInformation();
+	std::cout << "\nNet. Address\tFirst Usable\tLast Usable\tBroad. Address\tSubnet Mask" << std::endl << std::endl;
+
+	while (result.size() > 0) {
+		data = result.front();
+		result.pop_front();
+
+		IPAddress* subnetData[] = { data->networkAddress, data->firstUsableAddress, data->lastUsableAddress, data->broadcastAddress, data->subnetMask };
+
+		for (int i = 0; i < 5; i++) {
+			unsigned int* ipAddress = subnetData[i]->getAddress();
+
+			for (int j = 0; j < 4; j++) {
+				std::cout << ipAddress[j];
+				if (j != 3)
+					std::cout << ".";
+				else
+					std::cout << "\t";
+			}
+		}
+	}
+
+	std::cout << "\n";
+	system("pause");
+	delete addressSpace;
+	delete instance;
 }
+
+/*
+IPAddress address;
+IPAddress subnet_mask;
+SubnetService instance;
+vector<unsigned long int> requirement;
+
+requirement.push_back(10);
+requirement.push_back(30);
+requirement.push_back(60);
+requirement.push_back(120);
+requirement.push_back(500);
+requirement.push_back(2000);
+requirement.push_back(8100);
+requirement.push_back(15859);
+
+address.setAddress(172, 16, 0, 0);
+subnet_mask.setAddress(255, 255, 0, 0);
+
+list<SubnetInformation*> result = instance.run(address, requirement);
+SubnetInformation* data = new SubnetInformation();
+
+std::cout << "Net. Address\tFirst Usable\tLast Usable\tBroad. Address\tSubnet Mask" << std::endl << std::endl;
+
+while (result.size() > 0) {
+data = result.front();
+result.pop_front();
+
+IPAddress* subnetData[] = { data -> networkAddress, data-> firstUsableAddress, data -> lastUsableAddress, data -> broadcastAddress, data-> subnetMask };
+
+for (int i = 0; i < 5; i++) {
+unsigned int* ipAddress = subnetData[i]->getAddress();
+
+for (int j = 0; j < 4; j++) {
+std::cout << ipAddress[j];
+if (j != 3)
+std::cout << ".";
+else
+std::cout << "\t";
+}
+
+}
+
+std::cout << std::endl;
+}
+std::cin.get();
+*/

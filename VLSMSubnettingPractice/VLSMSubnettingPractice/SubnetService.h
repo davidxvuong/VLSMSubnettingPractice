@@ -6,27 +6,30 @@
 #include <vector>
 #include <cmath>
 #include "IPAddress.h"
-#include "SubnetMask.h"
+#include "SubnetInformation.h"
 
 using namespace std;
 
 class SubnetService {
+	private:
+		char classType;
 	public:
-		list<tuple<IPAddress*, IPAddress*, IPAddress*, IPAddress*, SubnetMask*>> run(IPAddress &space, vector<int> &requirements);
-		void solve(list<tuple<IPAddress*, IPAddress*, IPAddress*, IPAddress*, SubnetMask*>> &list, IPAddress &space, vector<int> &requirements);
+		void setClassType(char input);
+		list<SubnetInformation*> run(IPAddress &space, vector<unsigned long int> &requirements);
+		void solve(list<SubnetInformation*> &list, IPAddress &space, vector <unsigned long int> &requirements);
 };
 
-list<tuple<IPAddress*, IPAddress*, IPAddress*, IPAddress*, SubnetMask*>> SubnetService::run(IPAddress &space, vector<int> &requirements)
-{
-	//Format of tuple: Network Address, First Usable Address, Last Usable Address, Broadcast Address, Subnet Mask
-	list<tuple<IPAddress*, IPAddress*, IPAddress*, IPAddress*, SubnetMask*>> result;
-	
-	solve(result, space, requirements);
+void SubnetService::setClassType(char input) {
+	classType = input;
+}
 
+list<SubnetInformation*> SubnetService::run(IPAddress &space, vector<unsigned long int> &requirements) {
+	list<SubnetInformation*> result;
+	solve(result, space, requirements);
 	return result;
 }
 
-void SubnetService::solve(list<tuple<IPAddress*, IPAddress*, IPAddress*, IPAddress*, SubnetMask*>> &list, IPAddress &space, vector<int> &requirements) {
+void SubnetService::solve(list<SubnetInformation*> &list, IPAddress &space, vector <unsigned long int> &requirements) {
 	if (requirements.size() > 0) {
 		int startExp = 1;
 		int subnetSpace;
@@ -37,7 +40,7 @@ void SubnetService::solve(list<tuple<IPAddress*, IPAddress*, IPAddress*, IPAddre
 		IPAddress* firstUsableAddress = new IPAddress();
 		IPAddress* lastUsableAddress = new IPAddress();
 		IPAddress* broadcastAddress = new IPAddress();
-		SubnetMask* subnet_mask = new SubnetMask();
+		IPAddress* subnet_mask = new IPAddress();
 		bool stop = false;
 
 		while (!stop) {
@@ -63,13 +66,18 @@ void SubnetService::solve(list<tuple<IPAddress*, IPAddress*, IPAddress*, IPAddre
 		lastUsableAddress->setAddressAsUnsignedLongInt(lastUsableAddressInt);
 		broadcastAddress->setAddressAsUnsignedLongInt(broadcastAddressInt);
 		subnet_mask->setAddressAsBinary(newSubnetMask);
-		
-		std::tuple<IPAddress*, IPAddress*, IPAddress*, IPAddress*, SubnetMask*> subnetData(networkAddress, firstUsableAddress, lastUsableAddress, broadcastAddress, subnet_mask);
-		list.push_back(subnetData);
+
+		SubnetInformation* data = new SubnetInformation();
+		data->networkAddress = networkAddress;
+		data->firstUsableAddress = firstUsableAddress;
+		data->lastUsableAddress = lastUsableAddress;
+		data->broadcastAddress = broadcastAddress;
+		data->subnetMask = subnet_mask;
+
+		list.push_back(data);
 		requirements.pop_back();
 
 		solve(list, *nextNetworkAddress, requirements);
-
 	}
 	else {
 		return;
