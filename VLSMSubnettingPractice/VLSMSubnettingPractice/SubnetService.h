@@ -2,7 +2,6 @@
 
 #include <iostream>
 #include <list>
-#include <tuple>
 #include <vector>
 #include <cmath>
 #include "IPAddress.h"
@@ -44,7 +43,7 @@ void SubnetService::solve(list<SubnetInformation*> &list, IPAddress &space, vect
 		bool stop = false;
 
 		while (!stop) {
-			subnetSpace = (int)(pow(2, startExp));
+			subnetSpace = (int)(pow(2.0, (double)(startExp)));
 
 			if (subnetSpace - 2 >= subnetRequirement)
 				stop = true;

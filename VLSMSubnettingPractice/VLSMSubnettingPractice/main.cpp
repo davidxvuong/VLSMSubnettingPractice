@@ -21,7 +21,7 @@ int main() {
 	SubnetService* instance = new SubnetService();
 	vector <unsigned long int> requirements;
 	bool repeat = true;
-	system("Color 0a");
+
 	while (repeat) {
 		std::cout << "VLSM Subnetting Practice" << std::endl << std::endl;
 		std::cout << "I would like to practice (select one of the following):\n\tA) Class A Subnetting\n\tB) Class B Subnetting\n\tC) Class C Subnetting\n";
@@ -83,7 +83,7 @@ int main() {
 			int subnetSpace = 0;
 
 			while (!stop) {
-				subnetSpace = (int)(pow(2, startExp));
+				subnetSpace = (int)(pow(2.0, (double)(startExp)));
 
 				if (subnetSpace - 2 >= value)
 					stop = true;
@@ -103,7 +103,10 @@ int main() {
 		std::sort(requirements.begin(), requirements.end());
 		std::cout << "Find the most optimal addressing scheme for these subnets.\n" << std::endl;
 
-		system("pause");
+		std::cout << "Press any key to show answer...";
+		
+		std::cin.ignore();
+		std::cin.get();
 
 		list<SubnetInformation*> result = instance->run(*addressSpace, requirements);
 		SubnetInformation* data = new SubnetInformation();
@@ -126,6 +129,7 @@ int main() {
 						std::cout << "\t";
 				}
 			}
+			std::cout << std::endl;
 		}
 		
 		delete data;
