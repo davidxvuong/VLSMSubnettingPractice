@@ -11,8 +11,11 @@ class IPAddress {
 		char classType;
 	public:
 		IPAddress();
+		IPAddress(unsigned long int addressInInt);
+		IPAddress(std::bitset<32> addressInBinary);
 		IPAddress(const IPAddress &obj);
 		~IPAddress();
+
 		void setAddress(int first, int second, int third, int fourth);
 		void setAddressAsBinary(std::bitset<32> ip_address);
 		void setAddressAsUnsignedLongInt(unsigned long int &ip_address);
@@ -28,9 +31,19 @@ class IPAddress {
 		int getFourthOctet() const;
 };
 
+//Constructors
 IPAddress::IPAddress() {
 	address = new unsigned int[4];
-	//Empty default onstructor
+}
+
+IPAddress::IPAddress(unsigned long int addressAsInt) {
+	address = new unsigned int[4];
+	setAddressAsUnsignedLongInt(addressAsInt);
+}
+
+IPAddress::IPAddress(std::bitset<32> addressInBinary) {
+	address = new unsigned int[4];
+	setAddressAsBinary(addressInBinary);
 }
 
 IPAddress::IPAddress(const IPAddress &obj) {
@@ -44,6 +57,12 @@ IPAddress::IPAddress(const IPAddress &obj) {
 	binary_address = obj.binary_address;
 }
 
+//Deallocate address space when done
+IPAddress::~IPAddress() {
+	delete[] address;
+}
+
+//Sets the IP address based on the octets passed in
 void IPAddress::setAddress(int first, int second, int third, int fourth) {
 	address = new unsigned int[4];
 
@@ -65,10 +84,7 @@ void IPAddress::setAddress(int first, int second, int third, int fourth) {
 	setClassType(first);
 }
 
-IPAddress::~IPAddress() {
-	delete[] address;
-}
-
+//This function stores the class type based on the first octet of the IP Address
 void IPAddress::setClassType(int first) {
 	if (first >= 1 && first <= 126)
 		classType = 'A';
@@ -84,29 +100,35 @@ void IPAddress::setClassType(int first) {
 		classType = 'N';		//Loopback address
 }
 
+//Returns class type of the address
 char IPAddress::getClassType() const {
 	return classType;
 }
 
+//Retrieves the address array
 unsigned int* IPAddress::getAddress() const {
 	return address;
 }
 
+//Retrieves the address in binary format
 std::bitset<32> IPAddress::getAddressAsBinary() const {
 	return binary_address;
 }
 
+//Retrieves the address in a long integer format
 unsigned long int IPAddress::getAddressAsUnsignedLongInt() const
 {
 	return binary_address.to_ulong();
 }
 
+//Sets address in the binary form
 void IPAddress::setAddressAsBinary(std::bitset<32> ip_address)
 {
 	unsigned long int value = ip_address.to_ulong();
 	setAddressAsUnsignedLongInt(value);
 }
 
+//Sets address in the long integer form
 void IPAddress::setAddressAsUnsignedLongInt(unsigned long int &ip_address)
 {
 	unsigned long int sweeper = 255;
@@ -135,18 +157,22 @@ void IPAddress::setAddressAsUnsignedLongInt(unsigned long int &ip_address)
 	
 }
 
+//Retrieves the first octet of the IP address
 int IPAddress::getFirstOctet() const {
 	return address[0];
 }
 
+//Retrieves the second octet of the IP address
 int IPAddress::getSecondOctet() const {
 	return address[1];
 }
 
+//Retrieves the third octet of the IP address
 int IPAddress::getThirdOctet() const {
 	return address[2];
 }
 
+//Retrieves the fourth octet of the IP address
 int IPAddress::getFourthOctet() const {
 	return address[3];
 }
