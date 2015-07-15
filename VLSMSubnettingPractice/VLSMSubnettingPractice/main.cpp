@@ -4,6 +4,7 @@
 #include <bitset>
 #include <string>
 #include <vector>
+#include "SubnetInformation.h"
 #include "IPAddress.h"
 #include "SubnetService.h"
 

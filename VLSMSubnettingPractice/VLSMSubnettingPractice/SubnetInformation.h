@@ -1,5 +1,5 @@
+#pragma once
 #include "IPAddress.h"
-
 
 //This structure is used to hold the information of a subnet. 
 struct SubnetInformation {
