@@ -1,15 +1,34 @@
 ﻿<Window x:Class="VLSMSubnettingPracticeUI.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="VLSM Subnetting Practice" Height="300" Width="600"
+        Title="VLSM Subnetting Practice" Height="600" Width="1000"
         ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="150" />
-        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            
+            <RowDefinition Height="0.08*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="0.1*"/>
         </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Text="VLSM Subnetting Practice" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22" FontWeight="ExtraBold"/>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock x:Name="lblQuestion" Grid.Column="0" Width="250" TextWrapping="Wrap"/>
+            <DataGrid x:Name="result" Grid.Column="1" AutoGenerateColumns="False" FontSize="15">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Network Address" Width="*"/>
+                    <DataGridTextColumn Header="First Usable" Width="*"/>
+                    <DataGridTextColumn Header="Last Usable" Width="*"/>
+                    <DataGridTextColumn Header="Broadcast Address" Width="*"/>
+                    <DataGridTextColumn Header="Subnet Mask" Width="*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+        <Button x:Name="btnExit" Content="Exit" Grid.Row="2" Width="150" HorizontalAlignment="Right" FontSize="22" FontWeight="Bold" Margin="5, 5, 5, 5" Click="btnExit_Click" />
+        <Button x:Name="btnAbout" Content="About" Grid.Row="2" Width="150" HorizontalAlignment="Right" FontSize="22" FontWeight="Bold" Margin="0,5,165,5" Click="btnAbout_Click"/>
+        <Button x:Name="btnGenerate" Content="Generate" Grid.Row="2" Width="150" HorizontalAlignment="Left" FontSize="22" FontWeight="Bold" Margin="5, 5, 5, 5" Click="btnGenerate_Click"/>
+        <Button x:Name="btnSolve" Content="Solve" Grid.Row="2" Width="150" HorizontalAlignment="Left" FontSize="22" FontWeight="Bold" Margin="165, 5, 5, 5" IsEnabled="False" Click="btnSolve_Click"/>
     </Grid>
 </Window>
