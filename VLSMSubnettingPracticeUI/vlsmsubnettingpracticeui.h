@@ -22,6 +22,8 @@ private slots:
     void on_btnAbout_clicked();
     void cellSelected(int nRow, int nCol);
 
+    void on_btnGenerate_clicked();
+
 private:
     Ui::VLSMSubnettingPracticeUI *ui;
     QTableWidget* m_pTableWidget;

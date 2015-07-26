@@ -7,13 +7,18 @@ VLSMSubnettingPracticeUI::VLSMSubnettingPracticeUI(QWidget *parent) :
 {
     ui->setupUi(this);
     m_pTableWidget = ui->tableWidget;
-    m_pTableWidget->setRowCount(10);
-    m_pTableWidget->setColumnCount(3);
-    m_TableHeader<<"#"<<"Name"<<"Text";
+    m_pTableWidget->setColumnCount(5);
+    m_TableHeader<<"Network Address"<<"First Usable Address"<<"Last Usable Address" << "Broadcast Address" << "Subnet Mask";
 
     m_pTableWidget->setHorizontalHeaderLabels(m_TableHeader);
 
     m_pTableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
+    for (int c = 0; c < m_pTableWidget->horizontalHeader()->count(); ++c)
+    {
+        m_pTableWidget->horizontalHeader()->setSectionResizeMode(
+            c, QHeaderView::Stretch);
+    }
 
     connect(m_pTableWidget, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(cellSelected(int,int)));
 }
@@ -35,4 +40,9 @@ void VLSMSubnettingPracticeUI::on_btnAbout_clicked()
 
 void VLSMSubnettingPracticeUI::cellSelected(int nRow, int nCol){
     QMessageBox::information(this, "TEST", QString::number(nRow) + " " + QString::number(nCol));
+}
+
+void VLSMSubnettingPracticeUI::on_btnGenerate_clicked()
+{
+    ui -> btnSolve->setEnabled(true);
 }
