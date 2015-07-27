@@ -4,6 +4,18 @@
 #include <QWidget>
 #include <QMessageBox>
 #include <QTableWidget>
+#include <vector>
+#include <time.h>
+#include <algorithm>
+#include "ipaddress.h"
+#include "SubnetService.h"
+
+#define MAX_CLASS_A_ADDRESS 16777216
+#define MAX_CLASS_B_ADDRESS 65536
+#define MAX_CLASS_C_ADDRESS 256
+#define CLASS_A_LIMIT 20
+#define CLASS_B_LIMIT 15
+#define CLASS_C_LIMIT 5
 
 namespace Ui {
 class VLSMSubnettingPracticeUI;
@@ -20,14 +32,23 @@ public:
 private slots:
     void on_btnExit_clicked();
     void on_btnAbout_clicked();
-    void cellSelected(int nRow, int nCol);
-
     void on_btnGenerate_clicked();
+    void on_btnSolve_clicked();
+    void on_rdbClassA_clicked();
+    void on_rdbClassB_clicked();
+    void on_rdbClassC_clicked();
 
 private:
     Ui::VLSMSubnettingPracticeUI *ui;
-    QTableWidget* m_pTableWidget;
-    QStringList m_TableHeader;
+    QTableWidget* tableOutput;
+    QStringList headers;
+    IPAddress* addressSpace;
+    SubnetService* instance;
+    char classType;
+    vector <unsigned long int> requirements;
+    unsigned long int maxAddressSpace, spaceToSubnet;
+    int maxSubnetGenerated;
+    int count;
 };
 
 #endif // VLSMSUBNETTINGPRACTICEUI_H
