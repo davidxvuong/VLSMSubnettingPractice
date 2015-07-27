@@ -13,7 +13,7 @@
 #define MAX_CLASS_A_ADDRESS 16777216
 #define MAX_CLASS_B_ADDRESS 65536
 #define MAX_CLASS_C_ADDRESS 256
-#define CLASS_A_LIMIT 20
+#define CLASS_A_LIMIT 30
 #define CLASS_B_LIMIT 15
 #define CLASS_C_LIMIT 5
 
@@ -46,9 +46,6 @@ private:
     SubnetService* instance;
     char classType;
     vector <unsigned long int> requirements;
-    unsigned long int maxAddressSpace, spaceToSubnet;
-    int maxSubnetGenerated;
-    int count;
 };
 
 #endif // VLSMSUBNETTINGPRACTICEUI_H

@@ -7,6 +7,8 @@ VLSMSubnettingPracticeUI::VLSMSubnettingPracticeUI(QWidget *parent) :
 {
     //Initialize UI
     ui->setupUi(this);
+
+    setWindowFlags( (windowFlags() | Qt::CustomizeWindowHint) & ~Qt::WindowMaximizeButtonHint);
     tableOutput = ui->tableWidget;
     tableOutput->setColumnCount(5);
     headers<<"Network Address"<<"First Usable Address"<<"Last Usable Address" << "Broadcast Address" << "Subnet Mask";
@@ -40,6 +42,9 @@ void VLSMSubnettingPracticeUI::on_btnAbout_clicked()
 
 void VLSMSubnettingPracticeUI::on_btnGenerate_clicked()
 {
+    int count = 0;
+    unsigned long int maxAddressSpace, spaceToSubnet;
+    int maxSubnetGenerated;
     QString output;
 
     if (classType == 'A') {
@@ -52,7 +57,7 @@ void VLSMSubnettingPracticeUI::on_btnGenerate_clicked()
     else if (classType == 'B') {
         addressSpace->setAddress(172,16,0,0);
         maxAddressSpace = MAX_CLASS_B_ADDRESS;
-        spaceToSubnet = MAX_CLASS_A_ADDRESS;
+        spaceToSubnet = MAX_CLASS_B_ADDRESS;
         maxSubnetGenerated = CLASS_B_LIMIT;
         output = "Given an IP Address 172.16.0.0 with subnet mask 255.255.0.0 and the following subnet requirements:\n\n";
     }
@@ -108,7 +113,35 @@ void VLSMSubnettingPracticeUI::on_btnGenerate_clicked()
 
 void VLSMSubnettingPracticeUI::on_btnSolve_clicked()
 {
+    list<SubnetInformation*> result = instance->run(*addressSpace, requirements);
+    SubnetInformation* data = new SubnetInformation();
+    int rowCount = 0;
 
+    tableOutput->setRowCount(result.size());
+
+    while(result.size() > 0) {
+        data = result.front();
+        result.pop_front();
+
+        IPAddress* subnetData[] = { data->networkAddress, data->firstUsableAddress, data->lastUsableAddress, data->broadcastAddress, data->subnetMask };
+
+        for (int i = 0; i < 5; i++) {
+            unsigned int* ipAddress = subnetData[i]->getAddress();
+            QString print = "";
+
+            for (int j = 0; j < 4; j++) {
+                print += QString::number(ipAddress[j]);
+
+                if (j != 3) {
+                    print+= ".";
+                }
+            }
+
+            tableOutput->setItem(rowCount, i, new QTableWidgetItem(print));
+        }
+
+        rowCount++;
+    }
 }
 
 void VLSMSubnettingPracticeUI::on_rdbClassA_clicked()
@@ -128,3 +161,4 @@ void VLSMSubnettingPracticeUI::on_rdbClassC_clicked()
     classType = 'C';
     ui->btnGenerate->setEnabled(true);
 }
+

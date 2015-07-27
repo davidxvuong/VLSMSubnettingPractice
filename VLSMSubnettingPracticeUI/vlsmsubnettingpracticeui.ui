@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1400</width>
+    <width>1159</width>
     <height>691</height>
    </rect>
   </property>
@@ -21,7 +21,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1400</width>
+     <width>1159</width>
      <height>50</height>
     </rect>
    </property>
@@ -43,9 +43,9 @@
   <widget class="QWidget" name="horizontalLayoutWidget_2">
    <property name="geometry">
     <rect>
-     <x>509</x>
+     <x>359</x>
      <y>49</y>
-     <width>881</width>
+     <width>791</width>
      <height>571</height>
     </rect>
    </property>
@@ -84,7 +84,7 @@
   <widget class="QPushButton" name="btnExit">
    <property name="geometry">
     <rect>
-     <x>1220</x>
+     <x>970</x>
      <y>630</y>
      <width>171</width>
      <height>51</height>
@@ -103,7 +103,7 @@
   <widget class="QPushButton" name="btnAbout">
    <property name="geometry">
     <rect>
-     <x>1040</x>
+     <x>790</x>
      <y>630</y>
      <width>171</width>
      <height>51</height>
@@ -148,9 +148,9 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>190</y>
-     <width>491</width>
-     <height>431</height>
+     <y>150</y>
+     <width>341</width>
+     <height>471</height>
     </rect>
    </property>
    <property name="frameShape">
@@ -171,8 +171,8 @@
     <rect>
      <x>9</x>
      <y>49</y>
-     <width>491</width>
-     <height>131</height>
+     <width>341</width>
+     <height>91</height>
     </rect>
    </property>
    <property name="font">
@@ -188,9 +188,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>29</y>
-      <width>471</width>
-      <height>98</height>
+      <y>20</y>
+      <width>321</width>
+      <height>61</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
