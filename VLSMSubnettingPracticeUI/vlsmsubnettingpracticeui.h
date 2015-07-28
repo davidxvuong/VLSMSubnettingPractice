@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QMessageBox>
 #include <QTableWidget>
+#include <QLabel>
 #include <vector>
 #include <time.h>
 #include <algorithm>
@@ -13,7 +14,7 @@
 #define MAX_CLASS_A_ADDRESS 16777216
 #define MAX_CLASS_B_ADDRESS 65536
 #define MAX_CLASS_C_ADDRESS 256
-#define CLASS_A_LIMIT 30
+#define CLASS_A_LIMIT 50
 #define CLASS_B_LIMIT 15
 #define CLASS_C_LIMIT 5
 

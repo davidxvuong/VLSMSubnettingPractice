@@ -10,6 +10,7 @@ VLSMSubnettingPracticeUI::VLSMSubnettingPracticeUI(QWidget *parent) :
 
     setWindowFlags( (windowFlags() | Qt::CustomizeWindowHint) & ~Qt::WindowMaximizeButtonHint);
     tableOutput = ui->tableWidget;
+
     tableOutput->setColumnCount(5);
     headers<<"Network Address"<<"First Usable Address"<<"Last Usable Address" << "Broadcast Address" << "Subnet Mask";
     tableOutput->setHorizontalHeaderLabels(headers);
