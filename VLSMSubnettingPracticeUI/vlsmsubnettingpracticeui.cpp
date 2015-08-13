@@ -48,6 +48,10 @@ void VLSMSubnettingPracticeUI::on_btnGenerate_clicked()
     int maxSubnetGenerated;
     QString output;
 
+    if (requirements.size() > 0) {
+        requirements.clear();
+    }
+
     if (classType == 'A') {
         addressSpace->setAddress(10, 0, 0, 0);
         maxAddressSpace = MAX_CLASS_A_ADDRESS;
